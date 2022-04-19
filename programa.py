@@ -79,7 +79,9 @@ class Pre_Game_Window:
         self.chosenplayers_listbox.delete(self.chosenplayers_listbox.curselection())
 
     def start_game(self):
-        pass
+        players = self.chosenplayers_listbox.get(0, END)
+        self.new = Toplevel(self.master)
+        self.app = Game_Window(self.new, players)
 
 class New_Player_Window:
     def __init__(self, master):
@@ -113,17 +115,41 @@ class New_Player_Window:
         messagebox.showinfo('Success', 'Player created successfully!')
     
 class Game_Window:
-    def __init__(self, master):
+    def __init__(self, master, players):
         self.master = master
-        self.playernametitle_lbl = Label(master, text="Player name")
-        self.playernametitle_lbl.grid(row=0, column=0)
-        for i in range(1,11):
-            label = Label(master, text=f"{i}")
+        self.players = players
+        self.playernametitle_label = Label(master, text="Player name", font=12, relief='groove', width=16)
+        self.playernametitle_label.grid(row=0, column=0)
+        for i in range(1,10):
+            label = Label(master, text=f"{i}", font=12, relief='groove', width=6)
             label.grid(row=0, column=f"{i}")
-        self.sum_lbl = Label(master, text="Total")
-        self.sum_lbl.grid(row=0, column=11)
-        self.add_player_btn = Button(master, text="Add player")
-    
+        self.label_10 = Label(master, text="10", font=12, relief='groove', width=9)
+        self.label_10.grid(row=0, column=10)
+        self.sum_label = Label(master, text="Total", font=12, relief='groove', width=8)
+        self.sum_label.grid(row=0, column=11)
+        self.create_sheet()
+
+    def create_sheet(self):
+        for i in range(len(self.players)):
+            player = self.players[i].split('.')
+            self.player_label = Label(self.master, text=f"{player[1]}", font=12)
+            self.player_label.grid(row=i+1, column=0, sticky=W)
+            for j in range(1,10):
+                entry1 = Entry(self.master, font=11, width=3, relief="groove")
+                entry2 = Entry(self.master, font=11, width=3, relief="groove")
+                entry1.grid(row=i+1, column=f"{j}", sticky=W)
+                entry2.grid(row=i+1, column=f"{j}", sticky=E)
+            self.entry10_1 = Entry(self.master, font=11, width=3, relief="groove")
+            self.entry10_2 = Entry(self.master, font=11, width=3, relief="groove")
+            self.entry10_3 = Entry(self.master, font=11, width=3, relief="groove")
+            self.entry10_1.grid(row=i+1, column=10, sticky=W)
+            self.entry10_2.grid(row=i+1, column=10)
+            self.entry10_3.grid(row=i+1, column=10, sticky=E)
+            self.sum = Button(self.master, text="", font=11, width=6, relief='flat', command=self.total_sum)
+
+    def total_sum(self):
+        pass
+
 class Load_Window:
     def __init__(self):
         pass

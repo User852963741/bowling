@@ -24,7 +24,7 @@ class Player(Base):
         self.age = age
 
     def __repr__(self):
-        return f"{self.fname}"
+        return f"{self.id}. {self.fname}"
 
 class Game(Base):
     __tablename__ = "game"
