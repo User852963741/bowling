@@ -135,20 +135,33 @@ class Game_Window:
             self.player_label = Label(self.master, text=f"{player[1]}", font=12)
             self.player_label.grid(row=i+1, column=0, sticky=W)
             for j in range(1,10):
-                entry1 = Entry(self.master, font=11, width=3, relief="groove")
-                entry2 = Entry(self.master, font=11, width=3, relief="groove")
-                entry1.grid(row=i+1, column=f"{j}", sticky=W)
-                entry2.grid(row=i+1, column=f"{j}", sticky=E)
-            self.entry10_1 = Entry(self.master, font=11, width=3, relief="groove")
-            self.entry10_2 = Entry(self.master, font=11, width=3, relief="groove")
-            self.entry10_3 = Entry(self.master, font=11, width=3, relief="groove")
+                self.var1 = IntVar()
+                self.var2 = IntVar()
+                self.entry1 = Entry(self.master, textvariable=self.var1, font=11, width=3, relief="groove")
+                self.entry2 = Entry(self.master, textvariable=self.var2, font=11, width=3, relief="groove")
+                self.entry1.grid(row=i+1, column=j, sticky=W)
+                self.entry2.grid(row=i+1, column=j, sticky=E)
+                self.var1.trace_add('write', self.set_sum)
+                self.var2.trace_add('write', self.set_sum)
+            self.var10_1 = IntVar()
+            self.var10_2 = IntVar()
+            self.var10_3 = IntVar()
+            self.entry10_1 = Entry(self.master, textvariable=self.var10_1, font=11, width=3, relief="groove")
+            self.entry10_2 = Entry(self.master, textvariable=self.var10_2, font=11, width=3, relief="groove")
+            self.entry10_3 = Entry(self.master, textvariable=self.var10_3, font=11, width=3, relief="groove")
             self.entry10_1.grid(row=i+1, column=10, sticky=W)
             self.entry10_2.grid(row=i+1, column=10)
             self.entry10_3.grid(row=i+1, column=10, sticky=E)
-            self.sum = Button(self.master, text="", font=11, width=6, relief='flat', command=self.total_sum)
+            self.var10_1.trace_add('write', self.set_sum)
+            self.var10_2.trace_add('write', self.set_sum)
+            self.var10_3.trace_add('write', self.set_sum)
+            self.sum = IntVar()
+            self.sum_label = Label(self.master, textvariable=self.sum, font=11, width=6)
+            self.sum_label.grid(row=i+1, column=11)
 
-    def total_sum(self):
-        pass
+    def set_sum(self):
+        suma = int(self.var1.get() + self.var2.get() + self.var10_1.get() + self.var10_2.get() + self.var10_3.get())
+        self.sum.set(suma)
 
 class Load_Window:
     def __init__(self):
