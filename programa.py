@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
 from datetime import date
+import time
 
 
 engine = create_engine("sqlite:///db.db")
@@ -356,6 +357,7 @@ class History_Window:
         self.search_listbox.delete(0, self.search_listbox.size())
         list = session.query(Player).all()
         [self.search_listbox.insert(END, f"{i.id} | {i.fname}") for i in list]
+        self.master.results_label.destroy()
 
     def load_games(self):
         self.search_listbox.delete(0, self.search_listbox.size())
