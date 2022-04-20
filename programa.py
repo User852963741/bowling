@@ -1,9 +1,10 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from models import *
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
+from datetime import date
 
 engine = create_engine("sqlite:///db.db")
 session = sessionmaker(bind=engine)()
@@ -115,9 +116,10 @@ class New_Player_Window:
         messagebox.showinfo('Success', 'Player created successfully!')
 
 class Player_sheet:
-    def __init__(self, master, name, i):
+    def __init__(self, master, id, name, i):
         self.master = master
         self.name = name
+        self.id = id
         self.i = i
         self.var1 = StringVar()
         self.var1.set("0")
@@ -228,8 +230,9 @@ class Player_sheet:
         self.entry10_1.grid(row=i+1, column=10, sticky=W)
         self.entry10_2.grid(row=i+1, column=10)
         self.entry10_3.grid(row=i+1, column=10, sticky=E)
-        self.sum_label = Label(self.master, text="", font=11, width=6)
-        self.sum_label.grid(row=i+1, column=11)
+        self.sum_var = StringVar()
+        self.total_sum = Label(self.master, textvariable=self.sum_var, font=11, width=6)
+        self.total_sum.grid(row=i+1, column=11)
 
     def check_and_sum(self, master):
 
@@ -265,20 +268,24 @@ class Player_sheet:
                     if i != 18 and i % 2 != 0:
                         if int(entries[i-1].get()) + int(entries[i].get()) == 10:
                             entries[i].set("/")
-                        if i == 20 and entries[i-1].get() == "/":
-                            suma += int(entries[i].get())
-                        elif entries[i-1].get() == "/":
-                            suma += int(entries[i].get())
-                    elif i == 18:
-                        if entries[i-1].get() == "/" or entries[i-1].get() == "X":
-                            suma += int(entries[i].get())
+                if i == 20 and entries[i-1].get() == "/":
+                    suma += int(entries[i].get())
+                elif entries[i-1].get() == "/":
+                    suma += int(entries[i].get())
+                elif i == 18:
+                    if entries[i-1].get() == "/" or entries[i-1].get() == "X":
+                        suma += int(entries[i].get())
+        self.sum_var.set(suma)
 
-        self.sum_label['text'] = suma
+    def __str__(self):
+        return f"{self.name} {self.sum_var.get()}"
 
 class Game_Window:
     def __init__(self, master, players):
         self.master = master
         self.players = players
+        self.player_list = []
+        self.scores = []
         self.playernametitle_label = Label(master, text="Player name", font=12, relief='groove', width=16)
         self.playernametitle_label.grid(row=0, column=0)
         for i in range(1,10):
@@ -290,18 +297,48 @@ class Game_Window:
         self.sum_label.grid(row=0, column=11)
         for i in range(len(self.players)):
             self.create_sheet(i)
+        self.finish_button = Button(master, text="Finish game", width=12, command=self.finish_game)
+        self.finish_button.grid(row=0, column=12)
+        self.finish_label = Label(master, text="", font=12)
+        self.finish_label.grid(row=1, column=12)
 
     def create_sheet(self, i):
         player = self.players[i].split('.')
-        player = Player_sheet(self.master, player[1], i)
+        id = player[0]
+        name = player[1]
+        self.player_list.append(Player_sheet(self.master, id, name, i))
 
-class Load_Window:
+    def finish_game(self):
+
+        for player in self.player_list:
+            score = player.sum_var.get()
+            self.scores.append([int(score), str(player.name), int(player.id)])
+        self.scores.sort(reverse=True)
+        if len(self.scores) > 1:
+            if self.scores[0][0] == self.scores[1][0]:
+                first = self.scores[0]
+                second = self.scores[1]
+                self.finish_label['text'] = f"{first[1]} and {second[1]} are sharing the throne with {first[0]} points!"
+            else:
+                winner = self.scores[0]
+                self.finish_label['text'] = f"{winner[1]} destroyed the competition with {winner[0]} points!"
+        else:
+            winner = self.scores[0]
+            self.finish_label['text'] = f"{winner[1]} beat themselves with {winner[0]} points!"
+
+        game = Game()
+        for entry in self.scores:
+            player_id = entry[2]
+            score = entry[0]
+            result = Result(player_id=player_id, score=score)
+            game.results.append(result)
+            session.add(game)
+        session.commit()
+
+class History_Window:   
     def __init__(self):
         pass
 
-class History_Window:
-    def __init__(self):
-        pass
 
 def main():
     master = Tk()
