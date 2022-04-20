@@ -11,11 +11,6 @@ game_players = Table('Game_players', Base.metadata,
     Column('player_id', Integer, ForeignKey('player.id'))
 )
 
-# game_results = Table('Game_results', Base.metadata,
-#     Column('game_id', Integer, ForeignKey('game.id')),
-#     Column('result_id', Integer, ForeignKey('result.id'))
-# )
-
 class Player(Base):
     __tablename__ = "player"
     id = Column(Integer, primary_key=True, autoincrement=True)

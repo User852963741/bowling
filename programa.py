@@ -6,6 +6,7 @@ from tkinter import messagebox
 from PIL import ImageTk, Image
 from datetime import date
 
+
 engine = create_engine("sqlite:///db.db")
 session = sessionmaker(bind=engine)()
 
@@ -19,20 +20,14 @@ class root:
         self.banner.grid(row=0, columnspan=3)
         self.newgame_button = Button(master, text="New game", command=self.new_game)
         self.newgame_button.grid(row=1, column=1)
-        self.load_button = Button(master, text="Load game", command=self.load_game)
-        self.load_button.grid(row=2, column=1)
         self.history_button = Button(master, text="History", command=self.see_history)
-        self.history_button.grid(row=3, column=1)
+        self.history_button.grid(row=2, column=1)
         self.exit_button = Button(master, text="Exit", command=self.kill)
-        self.exit_button.grid(row=4, column=1)
+        self.exit_button.grid(row=3, column=1)
 
     def new_game(self):
         self.new = Toplevel(self.master)
         self.app = Pre_Game_Window(self.new)
-
-    def load_game(self):
-        self.new = Toplevel(self.master)
-        self.app = Load_Window(self.new)
 
     def see_history(self):
         self.new = Toplevel(self.master)
@@ -44,9 +39,9 @@ class root:
 class Pre_Game_Window:
     def __init__(self, master):
         self.master = master
-        self.master['padx'] = 5
-        self.master['pady'] = 5
-        self.playerbase_label = Label(master, text="Choose players")
+        self.master['pady'] = 20
+        self.master['padx'] = 20
+        self.playerbase_label = Label(master, text="Choose players", font=16)
         self.playerbase_label.grid(row=0, column=1)
         self.playerbase_listbox = Listbox(master)
         self.playerbase_listbox.grid(row=1, column=0)
@@ -283,6 +278,8 @@ class Player_sheet:
 class Game_Window:
     def __init__(self, master, players):
         self.master = master
+        self.master['pady'] = 20
+        self.master['padx'] = 20
         self.players = players
         self.player_list = []
         self.scores = []
@@ -336,10 +333,60 @@ class Game_Window:
         session.commit()
 
 class History_Window:   
-    def __init__(self):
-        pass
+    def __init__(self, master):
+        self.master = master
+        self.master.geometry('500x300')
+        self.master['pady'] = 20
+        self.master['padx'] = 20
+        left_frame = Frame(master)
+        right_frame = Frame(master)
+        left_frame.pack(side=LEFT)
+        right_frame.pack(side=RIGHT)
+        self.title_label = Label(master, text="Game history", font=16)
+        self.title_label.pack()
+        self.search_listbox = Listbox(left_frame, width=35)
+        self.search_listbox.pack()
+        self.search_by_player_button = Button(left_frame, text="Load players", command=self.load_players)
+        self.search_by_player_button.pack(anchor='s', side=LEFT)
+        self.search_by_game_button = Button(left_frame, text="Load games", command=self.load_games)
+        self.search_by_game_button.pack(anchor='s', side=RIGHT)
+        self.search_button = Button(left_frame, text="Search", command=self.search)
+        self.search_button.pack(side=BOTTOM)
+        self.results_label = Label(right_frame, text="")
+        self.results_label.pack()
 
+    def load_players(self):
+        self.search_listbox.delete(0, self.search_listbox.size())
+        list = session.query(Player).all()
+        [self.search_listbox.insert(END, f"{i.id} | {i.fname}") for i in list]
 
+    def load_games(self):
+        self.search_listbox.delete(0, self.search_listbox.size())
+        list = session.query(Game).all()
+        [self.search_listbox.insert(END, f"{i.id} | {i.date}") for i in list]
+
+    def search(self):
+        choice = self.search_listbox.get(ANCHOR)
+        if choice[-3] == "-":
+            list = choice.split("|")
+            id = int(list[0])
+            date = list[1]
+            search = session.query(Result).filter(
+                Result.game_id==id
+            ).all()
+            for entry in search:
+                print(entry)
+        else:
+            list = choice.split("|")
+            id = int(list[0])
+            print(id)
+            fname = str(list[1])
+            search = session.query(Game).filter(
+                Game.players==id
+            ).all()
+            for entry in search:
+                print(entry)
+        
 def main():
     master = Tk()
     app = root(master)
