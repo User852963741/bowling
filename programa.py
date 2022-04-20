@@ -306,7 +306,6 @@ class Game_Window:
         self.player_list.append(Player_sheet(self.master, id, name, i))
 
     def finish_game(self):
-
         for player in self.player_list:
             score = player.sum_var.get()
             self.scores.append([int(score), str(player.name), int(player.id)])
@@ -338,22 +337,20 @@ class History_Window:
         self.master.geometry('500x300')
         self.master['pady'] = 20
         self.master['padx'] = 20
-        left_frame = Frame(master)
-        right_frame = Frame(master)
-        left_frame.pack(side=LEFT)
-        right_frame.pack(side=RIGHT)
+        self.left_frame = Frame(master)
+        self.right_frame = Frame(master)
+        self.left_frame.pack(side=LEFT)
+        self.right_frame.pack(side=RIGHT)
         self.title_label = Label(master, text="Game history", font=16)
         self.title_label.pack()
-        self.search_listbox = Listbox(left_frame, width=35)
+        self.search_listbox = Listbox(self.left_frame, width=35)
         self.search_listbox.pack()
-        self.search_by_player_button = Button(left_frame, text="Load players", command=self.load_players)
+        self.search_by_player_button = Button(self.left_frame, text="Load players", command=self.load_players)
         self.search_by_player_button.pack(anchor='s', side=LEFT)
-        self.search_by_game_button = Button(left_frame, text="Load games", command=self.load_games)
+        self.search_by_game_button = Button(self.left_frame, text="Load games", command=self.load_games)
         self.search_by_game_button.pack(anchor='s', side=RIGHT)
-        self.search_button = Button(left_frame, text="Search", command=self.search)
+        self.search_button = Button(self.left_frame, text="Search", command=self.search)
         self.search_button.pack(side=BOTTOM)
-        self.results_label = Label(right_frame, text="")
-        self.results_label.pack()
 
     def load_players(self):
         self.search_listbox.delete(0, self.search_listbox.size())
@@ -375,7 +372,9 @@ class History_Window:
                 Result.game_id==id
             ).all()
             for entry in search:
-                print(entry)
+                self.results_label = Label(self.right_frame, text="")
+                self.results_label.pack(anchor='w')
+                self.results_label['text'] = entry
         else:
             list = choice.split("|")
             id = int(list[0])
@@ -385,7 +384,9 @@ class History_Window:
                 Game.players==id
             ).all()
             for entry in search:
-                print(entry)
+                self.results_label = Label(self.right_frame, text="")
+                self.results_label.pack(anchor='w')
+                self.results_label['text'] = entry
         
 def main():
     master = Tk()

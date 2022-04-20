@@ -46,6 +46,6 @@ class Result(Base):
     game = relationship('Game', back_populates='results')
 
     def __repr__(self):
-        return f"{self.id}. game {self.game_id}, player {self.player_id}, score {self.score}"
+        return f"Game #{self.game_id} | Player #{self.player_id} | Score - {self.score}"
 
 Base.metadata.create_all(engine)
