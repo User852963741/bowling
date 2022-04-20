@@ -113,7 +113,168 @@ class New_Player_Window:
         session.commit()
         self.master.destroy()
         messagebox.showinfo('Success', 'Player created successfully!')
-    
+
+class Player_sheet:
+    def __init__(self, master, name, i):
+        self.master = master
+        self.name = name
+        self.i = i
+        self.var1 = StringVar()
+        self.var1.set("0")
+        self.var1_2 = StringVar()
+        self.var1_2.set("0")
+        self.var2 = StringVar()
+        self.var2.set("0")
+        self.var2_2 = StringVar()
+        self.var2_2.set("0")
+        self.var3 = StringVar()
+        self.var3.set("0")
+        self.var3_2 = StringVar()
+        self.var3_2.set("0")
+        self.var4 = StringVar()
+        self.var4.set("0")
+        self.var4_2 = StringVar()
+        self.var4_2.set("0")
+        self.var5 = StringVar()
+        self.var5.set("0")
+        self.var5_2 = StringVar()
+        self.var5_2.set("0")
+        self.var6 = StringVar()
+        self.var6.set("0")
+        self.var6_2 = StringVar()
+        self.var6_2.set("0")
+        self.var7 = StringVar()
+        self.var7.set("0")
+        self.var7_2 = StringVar()
+        self.var7_2.set("0")
+        self.var8 = StringVar()
+        self.var8.set("0")
+        self.var8_2 = StringVar()
+        self.var8_2.set("0")
+        self.var9 = StringVar()
+        self.var9.set("0")
+        self.var9_2 = StringVar()
+        self.var9_2.set("0")
+        self.var10_1 = StringVar()
+        self.var10_1.set("0")
+        self.var10_2 = StringVar()
+        self.var10_2.set("0")
+        self.var10_3 = StringVar()
+        self.var10_3.set("0")
+        self.player_label = Label(self.master, text=f"{name}", font=12)
+        self.player_label.grid(row=i+1, column=0, sticky=W)
+        self.entry1 = Entry(self.master, textvariable=self.var1, font=11, width=3, relief="groove")
+        self.entry1_2 = Entry(self.master, textvariable=self.var1_2, font=11, width=3, relief="groove")
+        self.entry2 = Entry(self.master, textvariable=self.var2, font=11, width=3, relief="groove")
+        self.entry2_2 = Entry(self.master, textvariable=self.var2_2, font=11, width=3, relief="groove")
+        self.entry3 = Entry(self.master, textvariable=self.var3, font=11, width=3, relief="groove")
+        self.entry3_2 = Entry(self.master, textvariable=self.var3_2, font=11, width=3, relief="groove")
+        self.entry4 = Entry(self.master, textvariable=self.var4, font=11, width=3, relief="groove")
+        self.entry4_2 = Entry(self.master, textvariable=self.var4_2, font=11, width=3, relief="groove")
+        self.entry5 = Entry(self.master, textvariable=self.var5, font=11, width=3, relief="groove")
+        self.entry5_2 = Entry(self.master, textvariable=self.var5_2, font=11, width=3, relief="groove")
+        self.entry6 = Entry(self.master, textvariable=self.var6, font=11, width=3, relief="groove")
+        self.entry6_2 = Entry(self.master, textvariable=self.var6_2, font=11, width=3, relief="groove")
+        self.entry7 = Entry(self.master, textvariable=self.var7, font=11, width=3, relief="groove")
+        self.entry7_2 = Entry(self.master, textvariable=self.var7_2, font=11, width=3, relief="groove")
+        self.entry8 = Entry(self.master, textvariable=self.var8, font=11, width=3, relief="groove")
+        self.entry8_2 = Entry(self.master, textvariable=self.var8_2, font=11, width=3, relief="groove")
+        self.entry9 = Entry(self.master, textvariable=self.var9, font=11, width=3, relief="groove")
+        self.entry9_2 = Entry(self.master, textvariable=self.var9_2, font=11, width=3, relief="groove")
+        self.entry10_1 = Entry(self.master, textvariable=self.var10_1, font=11, width=3, relief="groove")
+        self.entry10_2 = Entry(self.master, textvariable=self.var10_2, font=11, width=3, relief="groove")
+        self.entry10_3 = Entry(self.master, textvariable=self.var10_3, font=11, width=3, relief="groove")
+        self.player_label = Label(self.master, text=f"{name}", font=12)
+        self.player_label.grid(row=i+1, column=0, sticky=W)
+        self.entry1.bind("<KeyRelease>", self.check_and_sum)
+        self.entry1_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry2_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry3.bind("<KeyRelease>", self.check_and_sum)
+        self.entry3_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry4.bind("<KeyRelease>", self.check_and_sum)
+        self.entry4_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry5.bind("<KeyRelease>", self.check_and_sum)
+        self.entry5_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry6.bind("<KeyRelease>", self.check_and_sum)
+        self.entry6_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry7.bind("<KeyRelease>", self.check_and_sum)
+        self.entry7_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry8.bind("<KeyRelease>", self.check_and_sum)
+        self.entry8_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry9.bind("<KeyRelease>", self.check_and_sum)
+        self.entry9_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry10_1.bind("<KeyRelease>", self.check_and_sum)
+        self.entry10_2.bind("<KeyRelease>", self.check_and_sum)
+        self.entry10_3.bind("<KeyRelease>", self.check_and_sum)
+        self.entry1.grid(row=i+1, column=1, sticky=W)
+        self.entry1_2.grid(row=i+1, column=1, sticky=E)
+        self.entry2.grid(row=i+1, column=2, sticky=W)
+        self.entry2_2.grid(row=i+1, column=2, sticky=E)
+        self.entry3.grid(row=i+1, column=3, sticky=W)
+        self.entry3_2.grid(row=i+1, column=3, sticky=E)
+        self.entry4.grid(row=i+1, column=4, sticky=W)
+        self.entry4_2.grid(row=i+1, column=4, sticky=E)
+        self.entry5.grid(row=i+1, column=5, sticky=W)
+        self.entry5_2.grid(row=i+1, column=5, sticky=E)
+        self.entry6.grid(row=i+1, column=6, sticky=W)
+        self.entry6_2.grid(row=i+1, column=6, sticky=E)
+        self.entry7.grid(row=i+1, column=7, sticky=W)
+        self.entry7_2.grid(row=i+1, column=7, sticky=E)
+        self.entry8.grid(row=i+1, column=8, sticky=W)
+        self.entry8_2.grid(row=i+1, column=8, sticky=E)
+        self.entry9.grid(row=i+1, column=9, sticky=W)
+        self.entry9_2.grid(row=i+1, column=9, sticky=E)
+        self.entry10_1.grid(row=i+1, column=10, sticky=W)
+        self.entry10_2.grid(row=i+1, column=10)
+        self.entry10_3.grid(row=i+1, column=10, sticky=E)
+        self.sum_label = Label(self.master, text="", font=11, width=6)
+        self.sum_label.grid(row=i+1, column=11)
+
+    def check_and_sum(self, master):
+
+        entries = [self.var1, self.var1_2, self.var2, self.var2_2, self.var3, self.var3_2, self.var4, self.var4_2, self.var5, self.var5_2, self.var6, self.var6_2, self.var7, self.var7_2, self.var8, self.var8_2, self.var9, self.var9_2, self.var10_1, self.var10_2, self.var10_3]
+        
+        suma = 0
+
+        for i in range(0,21):
+            if entries[i].get() == "/":
+                suma += 10
+                if i != 18 and i != 19 and i != 20 and entries[i+2].get() == "X":
+                    suma += 10
+            elif entries[i].get() == "X":
+                suma += 10
+                if i != 17 and i != 18 and i != 19 and i != 20 and entries[i+2].get() == "X":
+                    suma += 20
+                elif i != 17 and i != 18 and i != 19 and i != 20 and entries[i+2].get() != "X":
+                    suma += int(entries[i+1].get())
+                elif i == 18 or i == 19:
+                    suma += 10
+                elif i == 20:
+                    if entries[i-1].get() == "/":
+                        suma += 10
+            elif entries[i].get() == "10":
+                if i == 18 or i == 19 or i == 20:
+                    entries[i].set("X")
+                else:
+                    entries[i].set("0")
+                    entries[i+1].set("X")
+            elif entries[i].get() != "X" and entries[i].get() != "/":
+                suma += int(entries[i].get())
+                if entries[i-1].get() != "X" and entries[i-1].get() != "/":
+                    if i != 18 and i % 2 != 0:
+                        if int(entries[i-1].get()) + int(entries[i].get()) == 10:
+                            entries[i].set("/")
+                        if i == 20 and entries[i-1].get() == "/":
+                            suma += int(entries[i].get())
+                        elif entries[i-1].get() == "/":
+                            suma += int(entries[i].get())
+                    elif i == 18:
+                        if entries[i-1].get() == "/" or entries[i-1].get() == "X":
+                            suma += int(entries[i].get())
+
+        self.sum_label['text'] = suma
+
 class Game_Window:
     def __init__(self, master, players):
         self.master = master
@@ -127,41 +288,12 @@ class Game_Window:
         self.label_10.grid(row=0, column=10)
         self.sum_label = Label(master, text="Total", font=12, relief='groove', width=8)
         self.sum_label.grid(row=0, column=11)
-        self.create_sheet()
-
-    def create_sheet(self):
         for i in range(len(self.players)):
-            player = self.players[i].split('.')
-            self.player_label = Label(self.master, text=f"{player[1]}", font=12)
-            self.player_label.grid(row=i+1, column=0, sticky=W)
-            for j in range(1,10):
-                self.var1 = IntVar()
-                self.var2 = IntVar()
-                self.entry1 = Entry(self.master, textvariable=self.var1, font=11, width=3, relief="groove")
-                self.entry2 = Entry(self.master, textvariable=self.var2, font=11, width=3, relief="groove")
-                self.entry1.grid(row=i+1, column=j, sticky=W)
-                self.entry2.grid(row=i+1, column=j, sticky=E)
-                self.var1.trace_add('write', self.set_sum)
-                self.var2.trace_add('write', self.set_sum)
-            self.var10_1 = IntVar()
-            self.var10_2 = IntVar()
-            self.var10_3 = IntVar()
-            self.entry10_1 = Entry(self.master, textvariable=self.var10_1, font=11, width=3, relief="groove")
-            self.entry10_2 = Entry(self.master, textvariable=self.var10_2, font=11, width=3, relief="groove")
-            self.entry10_3 = Entry(self.master, textvariable=self.var10_3, font=11, width=3, relief="groove")
-            self.entry10_1.grid(row=i+1, column=10, sticky=W)
-            self.entry10_2.grid(row=i+1, column=10)
-            self.entry10_3.grid(row=i+1, column=10, sticky=E)
-            self.var10_1.trace_add('write', self.set_sum)
-            self.var10_2.trace_add('write', self.set_sum)
-            self.var10_3.trace_add('write', self.set_sum)
-            self.sum = IntVar()
-            self.sum_label = Label(self.master, textvariable=self.sum, font=11, width=6)
-            self.sum_label.grid(row=i+1, column=11)
+            self.create_sheet(i)
 
-    def set_sum(self):
-        suma = int(self.var1.get() + self.var2.get() + self.var10_1.get() + self.var10_2.get() + self.var10_3.get())
-        self.sum.set(suma)
+    def create_sheet(self, i):
+        player = self.players[i].split('.')
+        player = Player_sheet(self.master, player[1], i)
 
 class Load_Window:
     def __init__(self):
