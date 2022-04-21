@@ -5,8 +5,6 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
 from datetime import date
-import time
-
 
 engine = create_engine("sqlite:///db.db")
 session = sessionmaker(bind=engine)()
